@@ -12,7 +12,7 @@ if idade > 40 and idade % 2 == 0:
     print("Você tem direito a receber: R$ ",valor_hora_trab," pelas ",horas_trabalhadas,"horas trabalhadas")
     print("e a sua idade ",idade," é par")
 else:
-    print("Trabalhe dura e você receberá um pagamento.")
+    print("Trabalhe duro e você receberá um pagamento.")
     
 
 
