@@ -1,0 +1,147 @@
+CALCULA O MDC DE DOIS OU MAIS NUMEROS.
+
+m = 38
+n = 4750
+P = 266
+fc = []
+
+for f in range(1, min(m,n,P)+1):
+    if (m%f) == 0 and (n%f) == 0 and (P%f) == 0:
+        fc.append(f)
+print("Os divisores comuns de m = {} e n = {} e p = {} são:  {}".format(m,n,P,fc))
+print("O mdc({},{},{}) é: {}".format(m,n,P,fc[-1]))
+
+
+Os divisores comuns de m = 38 e n = 4750 e p = 266 são:  [1, 2, 19, 38]
+O mdc(38,4750,266) é: 38
+
+
+LISTA LIGADA
+
+--------------------
+
+class node:
+    def __init__(self, data = None):
+        self.data = data
+        self.next = None
+
+
+class linked_list:
+    def __init__(self):
+        self.head = node()
+
+    def append(self, data):
+        new_node = node(data)
+        cur = self.head
+        while cur.next != None:
+            cur = cur.next
+        cur.next = new_node
+
+    def length(self):
+        cur = self.head
+        total = 0
+        while cur.next != None:
+            total += 1
+            cur = cur.next
+        return total
+
+    def display(self):
+        elems = []
+        cur_node = self.head
+        while cur_node.next != None:
+            cur_node = cur_node.next
+            elems.append(cur_node.data)
+        print(elems)
+
+    def get(self, index):
+        if index == self.length():
+            print("ERRO: Indice fora da lista!")
+            return None
+        cur_idx = 0
+        cur_node = self.head
+        while True:
+            cur_node = cur_node.next
+            if cur_idx == index: return cur_node.data
+            cur_idx += 1
+                  
+        
+
+my_list = linked_list()
+
+my_list.display()
+
+my_list.append("Pedro")
+my_list.append("Paulo")
+my_list.append("Santos")
+my_list.append("Oliveira")
+my_list.append("Silva")
+
+my_list.display()
+
+print("O terceiro elemento da lista é: {}".format(my_list.get(2)))
+--------------------
+
+
+CALCULA DIFERENCIAL DE TEMPO ENTRE LISTAS E DICIONARIOS
+
+--------------------
+class_names = ["Jasom", "Paulo", "Erondina", "Celia", "Socorro", "Maria", "Emilia", "Carlos", "Antonio", "Manoel", "Fausto", "Gabriel", "Luiz"]
+
+def create_dataset():
+    import random
+    num_entries = 10000000
+    f = open("c:\\dados.txt","w")
+    for i in range(num_entries):
+        current = random.choice(class_names)
+        f.write(current+"\n")
+    f.close()
+
+def read_dataset_list():
+    class_counts = []
+    for c in class_names:
+        class_counts.append(0)
+    with open("c:\\dados.txt", "r") as f:
+        for line in f:
+            line = line.strip()
+            if line != "":
+                class_counts[class_names.index(line)] += 1
+    print(class_counts)
+
+def read_dataset_dict():
+    class_counts = {}
+    for c in class_names:
+        class_counts[c] = 0
+    with open("c:\\dados.txt", "r") as f:
+        for line in f:
+            line = line.strip()
+            if line != "":
+                class_counts[line] += 1
+    print(class_counts)
+
+
+import time
+
+t0 = time.time()
+create_dataset()
+t1 = time.time()
+dados = t1 - t0
+print("Arquivo de dados criado em {} segundos\n".format(dados))
+
+t0 = time.time()
+read_dataset_list()
+t1 = time.time()
+lista = t1 - t0
+print("Lista criada em {} segundos\n".format(lista))
+
+t0 = time.time()
+read_dataset_dict()
+t1 = time.time()
+dicionario = t1 - t0
+print("Dicionario criado em {} segundos\n".format(dicionario))
+
+f = open("c:\\dados.xls", "a")
+f.write("{:> 10} {:> 10} {:> 10}\n".format(dados, lista, dicionario))
+f.close()
+    
+
+--------------------

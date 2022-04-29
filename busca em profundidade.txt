@@ -1,0 +1,98 @@
+DEPTH-FIRST SEARCH IN PYTHON - RECURSIVE AND NON-RECURSIVE PROGRAMMING
+In my graph algorithms course we have been discussing breadth-first search and depth-first 
+search algorithms and are now transitioning to directed acyclic graphs (DAGs) and topological 
+sorting. In class we discussed one method of topological sorting that uses depth-first search. 
+Before writing an article on topological sorting in Python, I programmed 2 algorithms for doing 
+depth-first search in Python that I want to share. One is a recursive Python function and the 
+other is a non-recursive solution that introduces a Stack Data Structure to implement the stack 
+behavior that is inherent to a recursive function. I already coded C# versions of depth-first 
+search and breadth-first search, but I am learning Python along with learning algorithms, so I 
+want to share examples of depth-first search in Python as well.
+
+Adjacency Matrix an Directed Graph
+Below is a simple graph I constructed for topological sorting, and thought I would re-use
+it for depth-first search for simplicity. I am representing this graph in code using an 
+adjacency matrix via a Python Dictionary.
+
+Directed Acyclic Graph in Computer Science
+
+adjacency_matrix = {1: [2, 3], 2: [4, 5],
+                    3: [5], 4: [6], 5: [6],
+                    6: [7], 7: []}
+Depth-First Search Recursive Function in Python
+Given the adjacency matrix and a starting vertex of 1, one can find all the vertices in 
+the graph using the following recursive depth-first search function in Python.
+
+---------------------------------------------------------------------
+
+def dfs_recursive(graph, vertex, path=[]):
+    path += [vertex]
+
+    for neighbor in graph[vertex]:
+        if neighbor not in path:
+            path = dfs_recursive(graph, neighbor, path)
+
+    return path
+
+
+adjacency_matrix = {1: [2, 3], 2: [4, 5],
+                    3: [5], 4: [6], 5: [6],
+                    6: [7], 7: []}
+
+print(dfs_recursive(adjacency_matrix, 1))
+# [1, 2, 4, 6, 7, 5, 3]
+
+---------------------------------------------------------------------
+
+I included the variable, path, for 2 reasons. First, it is keeping a list of vertices already 
+visited so that the function does not visit a vertex twice. Second, it shows the path that 
+the depth-first search algorithm took to find all the vertices. Since we are using a list 
+as opposed to a set in Python to keep track of visited vertices, the search to see if a 
+vertex has already been visited has a linear runtime as opposed to constant runtime. I did 
+that for simplicity, but I wanted to mention it.
+
+Notice how the depth-first seach algorithm dives deep into the graph and only backtracks when it 
+comes to a deadend. It dives deep going from 1 -> 2 -> 4 -> 6 -> 7, and then backtracks to go 
+from 2 -> 5, and then backtracks again to go from 1 -> 3.
+
+Depth-First Search Non-Recursive Function in Python
+The Python code for the non-recursive depth-first function is similar to the recursive function, 
+except that a Stack Data Structure is necessary to provide the stack functionality inherently 
+present in the recursive function.
+
+---------------------------------------------------------------------
+
+def dfs_iterative(graph, start):
+    stack, path = [start], []
+
+    while stack:
+        vertex = stack.pop()
+        if vertex in path:
+            continue
+        path.append(vertex)
+        for neighbor in graph[vertex]:
+            stack.append(neighbor)
+
+    return path
+
+
+adjacency_matrix = {1: [2, 3], 2: [4, 5],
+                    3: [5], 4: [6], 5: [6],
+                    6: [7], 7: []}
+
+print(dfs_iterative(adjacency_matrix, 1))
+# [1, 3, 5, 6, 7, 2, 4]
+
+---------------------------------------------------------------------
+
+The path taken is different because the vertices are pushed onto the Stack Data Structure in a 
+different order. In this case, the depth-first search function dives deep to the right 
+1 -> 3 -> 5 -> 6 -> 7, and then backtracks to go from 1 -> 2 -> 4.
+
+Conclusion
+Next time I will use a form of depth-first search to do a topological sort on this directed 
+acyclic graph (DAG). Since the algorithm I want to use for the topological sort is a derivative 
+of depth-first search, it made sense to code this first in Python. Again, you can see depth-first 
+search in C# and breadth-first search in C# in previous articles.
+
+I hope this is useful. You can find me on twitter as @KoderDojo.

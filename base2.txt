@@ -1,0 +1,5 @@
+2;dominio
+4;eletrobras.gov.br
+6;premioconservacaoenergia.gov.br
+8;procel.gov.br
+2;proinfa.gov.br
